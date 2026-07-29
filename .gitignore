@@ -1,0 +1,12 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Dependências / build
+node_modules/
+*.log
+
+# Arquivos privados / dev (não publicar)
+_private/
+index.backup.html
+.fuse_hidden*

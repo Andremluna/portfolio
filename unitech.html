@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UniTech — Case Study · André Manoel</title>
+<meta name="description" content="Case study da landing page UniTech — agência ágil. Decisões de design, processo e stack técnica." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0a;
+  --bg-elev: #111111;
+  --bg-card: #141414;
+  --line: #1f1f1f;
+  --line-strong: #2a2a2a;
+  --lime: #C6FF00;
+  --lime-deep: #9FE600;
+  --lime-soft: #E8FFB3;
+  --text: #F2F2F2;
+  --text-dim: #8A8A8A;
+  --text-faint: #5A5A5A;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --maxw: 1280px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  overflow-x: hidden;
+  cursor: none;
+}
+::selection { background: var(--lime); color: var(--bg); }
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+
+/* cursor */
+.cursor {
+  position: fixed; top: 0; left: 0;
+  width: 10px; height: 10px;
+  background: var(--lime);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s var(--ease), height 0.2s var(--ease);
+  mix-blend-mode: difference;
+}
+.cursor.hover { width: 50px; height: 50px; }
+@media (hover: none) { .cursor { display: none; } body { cursor: auto; } a, button { cursor: pointer; } }
+
+.noise {
+  position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+/* nav */
+nav.top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 20px 0;
+  backdrop-filter: blur(20px) saturate(1.4);
+  background: rgba(10, 10, 10, 0.6);
+  border-bottom: 1px solid var(--line);
+}
+nav.top .wrap { display: flex; align-items: center; justify-content: space-between; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 15px;
+  color: var(--text);
+  transition: gap 0.3s var(--ease-out), color 0.3s;
+}
+.back-link:hover { gap: 14px; color: var(--lime); }
+.back-link .smile { color: var(--text-faint); font-weight: 400; }
+
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: var(--lime);
+  color: var(--bg);
+  font-weight: 600; font-size: 13px;
+  border-radius: 100px;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(198, 255, 0, 0.3); }
+
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-toggle {
+  display: inline-flex; align-items: center;
+  padding: 3px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+}
+.lang-btn {
+  background: transparent; border: 0;
+  padding: 5px 11px; border-radius: 100px;
+  color: var(--text-faint); cursor: none;
+  transition: color 0.25s, background 0.25s;
+}
+.lang-btn.active { background: var(--lime); color: var(--bg); }
+.lang-btn:not(.active):hover { color: var(--text); }
+
+/* brace */
+.brace { font-style: normal; color: var(--lime); font-weight: inherit; position: relative; display: inline-block; }
+.brace::before, .brace::after { color: var(--text-faint); font-weight: 400; font-family: 'Space Grotesk', sans-serif; }
+.brace::before { content: '{'; margin-right: 4px; }
+.brace::after { content: '}'; margin-left: 4px; }
+
+/* hero */
+.case-hero { padding: 160px 0 60px; position: relative; overflow: hidden; }
+.case-hero-glow {
+  position: absolute; width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(198, 255, 0, 0.15) 0%, transparent 60%);
+  top: -20%; right: -10%; filter: blur(40px); pointer-events: none;
+}
+.case-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--lime);
+  letter-spacing: 0.15em;
+  padding: 8px 14px;
+  background: rgba(198, 255, 0, 0.06);
+  border: 1px solid rgba(198, 255, 0, 0.2);
+  border-radius: 100px;
+  margin-bottom: 32px;
+}
+.case-eyebrow::before { content: '<>'; color: var(--text-faint); }
+
+.case-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 9vw, 140px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: 28px;
+}
+.case-title .grad {
+  background: linear-gradient(135deg, var(--lime) 0%, var(--lime-deep) 50%, #6FA800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.case-tagline {
+  max-width: 720px;
+  font-size: 20px;
+  color: var(--text-dim);
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+.case-tagline strong { color: var(--text); font-weight: 600; }
+
+.case-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 720px) { .case-meta { grid-template-columns: 1fr 1fr; gap: 24px; } }
+.meta-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.meta-value { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600; color: var(--text); }
+
+.case-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 28px;
+  border-radius: 100px;
+  font-weight: 600; font-size: 15px;
+  transition: all 0.3s var(--ease-out);
+}
+.btn-primary { background: var(--lime); color: var(--bg); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(198, 255, 0, 0.35); }
+.btn-ghost { border: 1px solid var(--line-strong); color: var(--text); }
+.btn-ghost:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-3px); }
+
+/* preview iframe */
+.preview {
+  margin: 80px 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+.preview iframe { width: 100%; height: 100%; border: 0; display: block; }
+.preview-bar {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: #0a0a0a;
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  z-index: 2;
+}
+.preview-dots { display: flex; gap: 6px; }
+.preview-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong); }
+.preview-dots span:first-child { background: #ff5f56; }
+.preview-dots span:nth-child(2) { background: #ffbd2e; }
+.preview-dots span:nth-child(3) { background: var(--lime); }
+.preview-url {
+  flex: 1;
+  margin-left: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  background: var(--bg-elev);
+  padding: 6px 14px;
+  border-radius: 100px;
+  text-align: center;
+}
+.preview iframe { padding-top: 40px; }
+
+/* sections */
+section.body { padding: 80px 0; }
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; color: var(--lime); letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  display: inline-block;
+}
+.section-num::before { content: '<>'; color: var(--text-faint); margin-right: 10px; letter-spacing: 0; }
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 48px;
+  max-width: 900px;
+}
+
+.prose { font-size: 17px; line-height: 1.75; color: var(--text-dim); max-width: 760px; }
+.prose p { margin-bottom: 20px; }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose .hl { color: var(--lime); font-weight: 600; }
+
+/* decisions grid */
+.decisions { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.decision {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  padding: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: all 0.4s var(--ease-out);
+}
+.decision:hover { border-color: var(--lime); transform: translateX(8px); }
+@media (max-width: 720px) { .decision { grid-template-columns: 1fr; gap: 16px; padding: 28px; } }
+.decision-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--lime);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.decision h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+.decision p { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+.decision p strong { color: var(--text); }
+
+/* stack */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+.stack-item {
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: center;
+  transition: all 0.3s;
+}
+.stack-item:hover { border-color: var(--lime); }
+.stack-item .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.stack-item .name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: var(--text); }
+
+/* CTA next */
+.next-cta {
+  padding: 80px 48px;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elev) 100%);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.next-cta::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(198, 255, 0, 0.12) 0%, transparent 70%);
+  top: -250px; left: 50%; transform: translateX(-50%);
+  filter: blur(40px);
+}
+.next-cta > * { position: relative; }
+.next-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--lime); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 24px; }
+.next-cta h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 36px;
+}
+
+/* footer */
+footer { padding: 48px 0 32px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text-faint); }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+footer .lime { color: var(--lime); }
+
+/* reveal */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="cursor" id="cursor"></div>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="index.html" class="back-link" data-hover>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      André Manoel <span class="smile">:)</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang-switch="pt" data-hover>PT</button>
+        <button class="lang-btn" data-lang-switch="en" data-hover>EN</button>
+      </div>
+      <a href="https://andremluna.github.io/UniTech/" target="_blank" rel="noopener" class="nav-cta" data-hover>
+        <span data-i18n="nav.live">Abrir site ao vivo</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="case-hero">
+  <div class="case-hero-glow"></div>
+  <div class="wrap">
+    <div class="case-eyebrow reveal" data-i18n="hero.eyebrow">CASE STUDY · 01</div>
+    <h1 class="case-title reveal">UniTech<span class="grad">.</span></h1>
+    <p class="case-tagline reveal" data-i18n="hero.tagline">
+      Landing page de uma agência ágil de software. O briefing pedia
+      <strong>velocidade percebida e prova social imediata</strong> — o objetivo era que o visitante
+      entendesse o valor em menos de 10 segundos e tivesse um CTA à mão em qualquer ponto da página.
+    </p>
+
+    <div class="case-meta reveal">
+      <div>
+        <div class="meta-label" data-i18n="meta.role">Papel</div>
+        <div class="meta-value">UI/UX Designer</div>
+      </div>
+      <div>
+        <div class="meta-label" data-i18n="meta.year">Ano</div>
+        <div class="meta-value">2025</div>
+      </div>
+      <div>
+        <div class="meta-label" data-i18n="meta.stack">Stack</div>
+        <div class="meta-value">HTML · CSS · JS</div>
+      </div>
+      <div>
+        <div class="meta-label" data-i18n="meta.team">Time</div>
+        <div class="meta-value" data-i18n="meta.team.val">6 pessoas</div>
+      </div>
+    </div>
+
+    <div class="case-actions reveal">
+      <a href="https://andremluna.github.io/UniTech/" target="_blank" rel="noopener" class="btn btn-primary" data-hover>
+        <span data-i18n="hero.cta1">Ver ao vivo</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a href="index.html#projects" class="btn btn-ghost" data-hover data-i18n="hero.cta2">
+        Outros projetos
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- PREVIEW IFRAME -->
+<div class="wrap reveal">
+  <div class="preview">
+    <div class="preview-bar">
+      <div class="preview-dots"><span></span><span></span><span></span></div>
+      <div class="preview-url">andremluna.github.io/UniTech</div>
+    </div>
+    <iframe src="https://andremluna.github.io/UniTech/" loading="lazy" title="UniTech preview"></iframe>
+  </div>
+</div>
+
+<!-- CONTEXTO -->
+<section class="body">
+  <div class="wrap">
+    <span class="section-num reveal" data-i18n="ctx.num">CONTEXTO</span>
+    <h2 class="section-title reveal" data-i18n="ctx.title">O que estava em jogo.</h2>
+    <div class="prose reveal">
+      <p data-i18n="ctx.p1">
+        A <strong>UniTech</strong> nasceu como projeto multi-disciplinar reunindo seis perfis —
+        Scrum Master, PO, Front-End, Back-End, Full-stack e Design. O briefing era simples na superfície e
+        denso por baixo: <span class="hl">vender confiança técnica numa única tela</span>.
+      </p>
+      <p data-i18n="ctx.p2">
+        O risco principal era cair na armadilha de toda landing de agência tech: jargão de processo,
+        carrosséis genéricos de logos e <em>"entregamos qualidade"</em> em quatro idiomas. Pra fugir disso,
+        estruturei a página em torno de uma pergunta de cada vez — <strong>preço</strong>,
+        <strong>transparência</strong> e <strong>excelência técnica</strong> —
+        cada uma respondida com sua própria seção e CTA.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- DECISÕES -->
+<section class="body" style="background: var(--bg-elev);">
+  <div class="wrap">
+    <span class="section-num reveal" data-i18n="dec.num">DECISÕES</span>
+    <h2 class="section-title reveal" data-i18n="dec.title">O que <span class="brace">escolhi</span> e por quê.</h2>
+
+    <div class="decisions reveal">
+
+      <article class="decision">
+        <div class="decision-num">01</div>
+        <div>
+          <h3 data-i18n="dec.1.title">Prova social no primeiro fold</h3>
+          <p data-i18n="dec.1.body">
+            Quatro avatares humanos + "<strong>+100 clientes atendidos</strong>" abaixo do CTA principal.
+            A decisão veio de uma observação simples: usuários de B2B não confiam em uma empresa que esconde quem ela já atendeu.
+            Avatares reais (não ícones) fazem o cérebro processar "<strong>gente como eu</strong>" em milissegundos.
+          </p>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-num">02</div>
+        <div>
+          <h3 data-i18n="dec.2.title">Metodologias como cartas paralelas</h3>
+          <p data-i18n="dec.2.body">
+            Scrum e Kanban viraram <strong>cartas com a mesma estrutura interna</strong> —
+            "Páginas desenvolvidas", "Como usamos no dia a dia", "Nossas práticas".
+            O paralelismo força a comparação justa e mostra que o time domina os dois jogos —
+            não está vendendo um framework, está vendendo método.
+          </p>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-num">03</div>
+        <div>
+          <h3 data-i18n="dec.3.title">FAQ como redutor de fricção</h3>
+          <p data-i18n="dec.3.body">
+            O acordeão de FAQ vive logo antes do rodapé porque é onde a objeção final acontece —
+            "<em>preciso de backend?</em>", "<em>posso usar IA pra escrever os textos?</em>".
+            Cada pergunta antecipada é uma micro-conversão: <span class="hl">o visitante para de procurar motivo pra sair</span>.
+          </p>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-num">04</div>
+        <div>
+          <h3 data-i18n="dec.4.title">Reveal on-scroll, sem rolê</h3>
+          <p data-i18n="dec.4.body">
+            Usei <strong>IntersectionObserver puro</strong> em vez de libs externas pesadas.
+            Cada bloco aparece com um leve fade + translate de 8px — o suficiente pra dar sensação de
+            "<strong>descobrindo</strong>" o conteúdo sem virar parque de diversões. Performance: TTI &lt; 1s no Lighthouse.
+          </p>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-num">05</div>
+        <div>
+          <h3 data-i18n="dec.5.title">CTA recorrente, mas contextual</h3>
+          <p data-i18n="dec.5.body">
+            "<strong>Fale conosco</strong>" aparece <strong>5 vezes</strong> ao longo da página — mas cada uma vem
+            depois de um argumento diferente. Não é repetição por repetição; é dar à pessoa a porta
+            de saída <span class="hl">no momento exato</span> em que ela está convencida.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="body">
+  <div class="wrap">
+    <span class="section-num reveal" data-i18n="stk.num">STACK</span>
+    <h2 class="section-title reveal" data-i18n="stk.title">Tecnologia <span class="brace">enxuta</span>.</h2>
+    <p class="prose reveal" style="margin-bottom: 40px;" data-i18n="stk.intro">
+      Sem framework. Tudo HTML, CSS e JavaScript puros — landing page é o lugar onde
+      bundle pequeno vira diferencial de conversão. Lighthouse rodou 98+ em Performance.
+    </p>
+    <div class="stack-grid reveal">
+      <div class="stack-item"><div class="label" data-i18n="stk.l1">Markup</div><div class="name">HTML5</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l2">Estilo</div><div class="name">CSS3 · Grid · Flexbox</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l3">Lógica</div><div class="name">Vanilla JS</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l4">Reveal</div><div class="name">IntersectionObserver</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l5">Deploy</div><div class="name">GitHub Pages</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l6">Tipografia</div><div class="name">Web Fonts</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT CTA -->
+<section class="body">
+  <div class="wrap">
+    <div class="next-cta reveal">
+      <div class="next-eyebrow" data-i18n="nxt.eyebrow">PRÓXIMO PROJETO</div>
+      <h2 data-i18n="nxt.title">ContaGotas — <span class="brace">saúde preventiva</span>.</h2>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="contagotas.html" class="btn btn-primary" data-hover>
+          <span data-i18n="nxt.cta1">Ver case study</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="index.html" class="btn btn-ghost" data-hover data-i18n="nxt.cta2">Voltar pro início</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 <span class="lime">.mano</span> <span style="color:var(--text-dim);" data-i18n="foot.rights">· todos os direitos reservados</span></div>
+    <div><span style="color:var(--text-dim);" data-i18n="foot.made">designed &amp; coded with</span> <span class="lime">&lt;/&gt;</span> <span style="color:var(--text-dim);" data-i18n="foot.place">em Recife, BR</span></div>
+  </div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop() {
+  cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
+  cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('[data-hover], a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ==================== i18n PT / EN ====================
+const i18n = {
+  pt: {
+    'nav.live': 'Abrir site ao vivo',
+    'hero.eyebrow': 'CASE STUDY · 01',
+    'hero.tagline': 'Landing page de uma agência ágil de software. O briefing pedia <strong>velocidade percebida e prova social imediata</strong> — o objetivo era que o visitante entendesse o valor em menos de 10 segundos e tivesse um CTA à mão em qualquer ponto da página.',
+    'meta.role': 'Papel', 'meta.year': 'Ano', 'meta.stack': 'Stack', 'meta.team': 'Time',
+    'meta.team.val': '6 pessoas',
+    'hero.cta1': 'Ver ao vivo', 'hero.cta2': 'Outros projetos',
+    'ctx.num': 'CONTEXTO', 'ctx.title': 'O que estava em jogo.',
+    'ctx.p1': 'A <strong>UniTech</strong> nasceu como projeto multi-disciplinar reunindo seis perfis — Scrum Master, PO, Front-End, Back-End, Full-stack e Design. O briefing era simples na superfície e denso por baixo: <span class="hl">vender confiança técnica numa única tela</span>.',
+    'ctx.p2': 'O risco principal era cair na armadilha de toda landing de agência tech: jargão de processo, carrosséis genéricos de logos e <em>"entregamos qualidade"</em> em quatro idiomas. Pra fugir disso, estruturei a página em torno de uma pergunta de cada vez — <strong>preço</strong>, <strong>transparência</strong> e <strong>excelência técnica</strong> — cada uma respondida com sua própria seção e CTA.',
+    'dec.num': 'DECISÕES', 'dec.title': 'O que <span class="brace">escolhi</span> e por quê.',
+    'dec.1.title': 'Prova social no primeiro fold',
+    'dec.1.body': 'Quatro avatares humanos + "<strong>+100 clientes atendidos</strong>" abaixo do CTA principal. A decisão veio de uma observação simples: usuários de B2B não confiam em uma empresa que esconde quem ela já atendeu. Avatares reais (não ícones) fazem o cérebro processar "<strong>gente como eu</strong>" em milissegundos.',
+    'dec.2.title': 'Metodologias como cartas paralelas',
+    'dec.2.body': 'Scrum e Kanban viraram <strong>cartas com a mesma estrutura interna</strong> — "Páginas desenvolvidas", "Como usamos no dia a dia", "Nossas práticas". O paralelismo força a comparação justa e mostra que o time domina os dois jogos — não está vendendo um framework, está vendendo método.',
+    'dec.3.title': 'FAQ como redutor de fricção',
+    'dec.3.body': 'O acordeão de FAQ vive logo antes do rodapé porque é onde a objeção final acontece — "<em>preciso de backend?</em>", "<em>posso usar IA pra escrever os textos?</em>". Cada pergunta antecipada é uma micro-conversão: <span class="hl">o visitante para de procurar motivo pra sair</span>.',
+    'dec.4.title': 'Reveal on-scroll, sem rolê',
+    'dec.4.body': 'Usei <strong>IntersectionObserver puro</strong> em vez de libs externas pesadas. Cada bloco aparece com um leve fade + translate de 8px — o suficiente pra dar sensação de "<strong>descobrindo</strong>" o conteúdo sem virar parque de diversões. Performance: TTI &lt; 1s no Lighthouse.',
+    'dec.5.title': 'CTA recorrente, mas contextual',
+    'dec.5.body': '"<strong>Fale conosco</strong>" aparece <strong>5 vezes</strong> ao longo da página — mas cada uma vem depois de um argumento diferente. Não é repetição por repetição; é dar à pessoa a porta de saída <span class="hl">no momento exato</span> em que ela está convencida.',
+    'stk.num': 'STACK', 'stk.title': 'Tecnologia <span class="brace">enxuta</span>.',
+    'stk.intro': 'Sem framework. Tudo HTML, CSS e JavaScript puros — landing page é o lugar onde bundle pequeno vira diferencial de conversão. Lighthouse rodou 98+ em Performance.',
+    'stk.l1': 'Markup', 'stk.l2': 'Estilo', 'stk.l3': 'Lógica', 'stk.l4': 'Reveal', 'stk.l5': 'Deploy', 'stk.l6': 'Tipografia',
+    'nxt.eyebrow': 'PRÓXIMO PROJETO',
+    'nxt.title': 'ContaGotas — <span class="brace">saúde preventiva</span>.',
+    'nxt.cta1': 'Ver case study', 'nxt.cta2': 'Voltar pro início',
+    'foot.rights': '· todos os direitos reservados',
+    'foot.made': 'designed &amp; coded with',
+    'foot.place': 'em Recife, BR'
+  },
+  en: {
+    'nav.live': 'Open live site',
+    'hero.eyebrow': 'CASE STUDY · 01',
+    'hero.tagline': 'Landing page for an agile software agency. The brief asked for <strong>perceived speed and immediate social proof</strong> — the goal was for visitors to grasp the value in under 10 seconds with a CTA always within reach.',
+    'meta.role': 'Role', 'meta.year': 'Year', 'meta.stack': 'Stack', 'meta.team': 'Team',
+    'meta.team.val': '6 people',
+    'hero.cta1': 'View live', 'hero.cta2': 'Other projects',
+    'ctx.num': 'CONTEXT', 'ctx.title': 'What was at stake.',
+    'ctx.p1': '<strong>UniTech</strong> was born as a multi-disciplinary project bringing together six roles — Scrum Master, PO, Front-End, Back-End, Full-stack and Design. The brief was simple on the surface and dense underneath: <span class="hl">selling technical trust in a single screen</span>.',
+    'ctx.p2': 'The main risk was falling into every tech-agency landing trap: process jargon, generic logo carousels and <em>"we deliver quality"</em> in four languages. To avoid that, I structured the page around one question at a time — <strong>price</strong>, <strong>transparency</strong> and <strong>technical excellence</strong> — each answered with its own section and CTA.',
+    'dec.num': 'DECISIONS', 'dec.title': 'What I <span class="brace">chose</span> and why.',
+    'dec.1.title': 'Social proof above the fold',
+    'dec.1.body': 'Four human avatars + "<strong>+100 clients served</strong>" right below the primary CTA. The decision came from a simple observation: B2B users don’t trust a company that hides who it has worked with. Real avatars (not icons) make the brain process "<strong>people like me</strong>" in milliseconds.',
+    'dec.2.title': 'Methodologies as parallel cards',
+    'dec.2.body': 'Scrum and Kanban became <strong>cards with the same internal structure</strong> — "Pages developed", "How we use it daily", "Our practices". The parallelism forces a fair comparison and shows the team owns both — not selling a framework, selling method.',
+    'dec.3.title': 'FAQ as friction reducer',
+    'dec.3.body': 'The FAQ accordion sits right before the footer because that’s where the final objection lives — "<em>do I need a backend?</em>", "<em>can I use AI to write the copy?</em>". Every anticipated question is a micro-conversion: <span class="hl">the visitor stops looking for a reason to leave</span>.',
+    'dec.4.title': 'Reveal on-scroll, no fluff',
+    'dec.4.body': 'I used <strong>vanilla IntersectionObserver</strong> instead of heavy external libs. Each block enters with a subtle fade + 8px translate — enough to feel like "<strong>discovering</strong>" the content without turning into a theme park. Performance: TTI &lt; 1s on Lighthouse.',
+    'dec.5.title': 'Recurring CTA, but contextual',
+    'dec.5.body': '"<strong>Contact us</strong>" appears <strong>5 times</strong> across the page — but each one follows a different argument. It’s not repetition for repetition; it’s giving the person the exit door <span class="hl">at the exact moment</span> they’re convinced.',
+    'stk.num': 'STACK', 'stk.title': '<span class="brace">Lean</span> tech.',
+    'stk.intro': 'No framework. All vanilla HTML, CSS and JavaScript — landing pages are where a small bundle becomes conversion edge. Lighthouse hit 98+ on Performance.',
+    'stk.l1': 'Markup', 'stk.l2': 'Style', 'stk.l3': 'Logic', 'stk.l4': 'Reveal', 'stk.l5': 'Deploy', 'stk.l6': 'Typography',
+    'nxt.eyebrow': 'NEXT PROJECT',
+    'nxt.title': 'ContaGotas — <span class="brace">preventive health</span>.',
+    'nxt.cta1': 'Read case study', 'nxt.cta2': 'Back to home',
+    'foot.rights': '· all rights reserved',
+    'foot.made': 'designed &amp; coded with',
+    'foot.place': 'in Recife, BR'
+  }
+};
+
+(function() {
+  function getStoredLang() { try { return localStorage.getItem('mano.lang'); } catch (e) { return null; } }
+  function storeLang(lang) { try { localStorage.setItem('mano.lang', lang); } catch (e) {} }
+
+  function setLang(lang) {
+    if (!i18n[lang]) lang = 'pt';
+    document.documentElement.lang = (lang === 'pt') ? 'pt-BR' : 'en';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      const val = i18n[lang][key];
+      if (val !== undefined) el.innerHTML = val;
+    });
+    document.querySelectorAll('[data-lang-switch]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.langSwitch === lang);
+    });
+    storeLang(lang);
+  }
+
+  document.querySelectorAll('[data-lang-switch]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.langSwitch));
+  });
+
+  const initial = getStoredLang() || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'pt');
+  setLang(initial);
+})();
+</script>
+
+</body>
+</html>
