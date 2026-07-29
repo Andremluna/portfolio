@@ -1,0 +1,23 @@
+/* ============================================================
+   André Manoel — Portfólio
+   Entry point de estilos. Ordem = cascata intencional:
+   tokens → base → layout → componentes.
+   ============================================================ */
+
+/* 1. Fundação */
+@import url('tokens.css');
+@import url('base.css');
+@import url('layout.css');
+
+/* 2. Componentes (ordem de aparição na página) */
+@import url('components/cursor.css');
+@import url('components/nav.css');
+@import url('components/hero.css');
+@import url('components/about.css');
+@import url('components/experience.css');
+@import url('components/process.css');
+@import url('components/projects.css');
+@import url('components/behance.css');
+@import url('components/skills.css');
+@import url('components/contact.css');
+@import url('components/footer.css');
