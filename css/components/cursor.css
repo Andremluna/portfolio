@@ -1,0 +1,22 @@
+/* ==================== CUSTOM CURSOR ==================== */
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  background: var(--lime);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s var(--ease-out), width 0.2s var(--ease), height 0.2s var(--ease), background 0.2s;
+  mix-blend-mode: difference;
+  opacity: 0; /* só aparece quando o JS ativa (.cursor-ready no body) */
+}
+body.cursor-ready .cursor { opacity: 1; }
+.cursor.hover { width: 50px; height: 50px; }
+
+@media (hover: none) {
+  .cursor { display: none; }
+  body { cursor: auto; }
+  button, a { cursor: pointer; }
+}

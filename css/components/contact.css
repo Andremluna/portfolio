@@ -1,0 +1,82 @@
+/* ==================== CONTACT ==================== */
+.contact-card {
+  padding: 80px 48px;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elev) 100%);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.contact-card::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(198, 255, 0, 0.15) 0%, transparent 70%);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+.contact-card > * { position: relative; }
+.contact-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--lime);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.contact-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(44px, 7vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 32px;
+}
+.contact-title em { font-style: italic; color: var(--lime); font-weight: 500; }
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  padding: 18px 32px;
+  background: var(--lime);
+  color: var(--bg);
+  border-radius: 100px;
+  font-weight: 600;
+  transition: all 0.3s var(--ease-out);
+  margin-bottom: 48px;
+}
+.contact-email:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(198, 255, 0, 0.4); }
+.socials { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.social {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all 0.3s var(--ease-out);
+  color: var(--text-dim);
+}
+.social:hover,
+.social:focus-visible { color: var(--lime); border-color: var(--lime); transform: translateY(-4px) scale(1.05); }
+
+/* ---------- Mobile: impede o e-mail de estourar o card/tela ---------- */
+@media (max-width: 480px) {
+  .contact-email {
+    font-size: 14px;
+    padding: 16px 20px;
+    gap: 8px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 360px) {
+  .contact-email { font-size: 12px; padding: 14px 16px; }
+  .contact-email svg { display: none; }
+}

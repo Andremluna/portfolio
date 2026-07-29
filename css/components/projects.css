@@ -1,0 +1,152 @@
+/* ==================== PROJECTS ==================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 900px) { .projects-grid { grid-template-columns: 1fr; } }
+
+.project-card {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 11;
+  transition: transform 0.5s var(--ease-out), border-color 0.5s, box-shadow 0.5s;
+  isolation: isolate;
+}
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: var(--lime);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(198, 255, 0, 0.12);
+}
+
+.project-iframe-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #ffffff;
+  z-index: 0;
+}
+.project-iframe-wrap iframe {
+  width: 250%;
+  height: 250%;
+  transform: scale(0.4);
+  transform-origin: 0 0;
+  pointer-events: none;
+  border: 0;
+  transition: transform 0.7s var(--ease-out);
+}
+.project-card:hover .project-iframe-wrap iframe { transform: scale(0.45); }
+
+/* always-visible label */
+.project-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 28px;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.6) 30%, rgba(10, 10, 10, 0.95) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  z-index: 2;
+  transition: opacity 0.35s var(--ease-out);
+}
+.project-label-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.project-label-sub { font-size: 13px; color: var(--text-dim); }
+.project-label-arrow {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-out);
+}
+.project-card:hover .project-label-arrow { transform: rotate(-45deg); }
+
+/* expanded overlay on hover/focus */
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.97) 0%, rgba(10, 10, 10, 0.92) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s var(--ease-out), transform 0.5s var(--ease-out);
+  z-index: 3;
+}
+.project-card:hover .project-overlay,
+.project-card:focus-visible .project-overlay { opacity: 1; transform: translateY(0); }
+.project-card:hover .project-label,
+.project-card:focus-visible .project-label { opacity: 0; }
+
+.project-overlay-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--lime);
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+.project-overlay h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.project-overlay p {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 480px;
+}
+.project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.project-tags span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 5px 11px;
+  background: rgba(198, 255, 0, 0.1);
+  color: var(--lime);
+  border: 1px solid rgba(198, 255, 0, 0.2);
+  border-radius: 100px;
+}
+.project-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.project-actions a,
+.project-actions .primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 100px;
+  transition: all 0.25s var(--ease-out);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  background: var(--bg);
+}
+.project-actions a.primary,
+.project-actions .primary { background: var(--lime); color: var(--bg); border-color: var(--lime); }
+.project-actions a:hover { transform: translateY(-2px); border-color: var(--lime); color: var(--lime); }
+.project-actions a.primary:hover { color: var(--bg); box-shadow: 0 12px 32px rgba(198, 255, 0, 0.3); }
+
+@media (max-width: 720px) {
+  .project-overlay { padding: 24px; }
+  .project-overlay h3 { font-size: 26px; }
+}

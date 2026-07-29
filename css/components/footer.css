@@ -1,0 +1,9 @@
+/* ==================== FOOTER ==================== */
+footer {
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+footer .lime { color: var(--lime); }
