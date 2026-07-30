@@ -8,9 +8,9 @@ const i18n = {
     'nav.design': 'Design',
     'nav.skills': 'Skills',
     'nav.contact': 'Contato',
-    'nav.available': 'Disponível',
+    'nav.available': 'Vamos conversar?',
 
-    'hero.pill': 'Disponível para novos projetos · Recife/Natal, BR',
+    'hero.pill': 'UX/UI Designer × Design Engineer · Recife/Natal, BR',
     'hero.h1': 'Design que<br/><span class="brace gradient">entrega.</span>',
     'hero.chip4': '5+ anos',
     'hero.desc': 'Designer híbrido especializado em transformar requisitos de negócio em <strong>produtos digitais funcionais, escaláveis e de alta conversão</strong>. Atualmente na <strong>HeadOffice.ai</strong>, com passagens por <strong>Adobe</strong>, Tangram e LL Imóveis — domino o ciclo completo: pesquisa, prototipagem, design visual e handoff técnico em React.',
@@ -116,9 +116,9 @@ const i18n = {
     'nav.design': 'Design',
     'nav.skills': 'Skills',
     'nav.contact': 'Contact',
-    'nav.available': 'Available',
+    'nav.available': "Let's talk",
 
-    'hero.pill': 'Available for new projects · Recife/Natal, BR',
+    'hero.pill': 'UX/UI Designer × Design Engineer · Recife/Natal, BR',
     'hero.h1': 'Design that<br/><span class="brace gradient">ships.</span>',
     'hero.chip4': '5+ years',
     'hero.desc': 'Hybrid designer specialized in turning business requirements into <strong>functional, scalable, high-conversion digital products</strong>. Currently at <strong>HeadOffice.ai</strong>, with previous stints at <strong>Adobe</strong>, Tangram and LL Imóveis — I own the full cycle: research, prototyping, visual design and technical handoff in React.',
