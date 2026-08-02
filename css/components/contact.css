@@ -49,6 +49,10 @@
   font-weight: 600;
   transition: all 0.3s var(--ease-out);
   margin-bottom: 48px;
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow-wrap: anywhere;
 }
 .contact-email:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(198, 255, 0, 0.4); }
 .socials { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -64,17 +68,12 @@
 .social:hover,
 .social:focus-visible { color: var(--lime); border-color: var(--lime); transform: translateY(-4px) scale(1.05); }
 
-/* ---------- Mobile: impede o e-mail de estourar o card/tela ---------- */
+/* Mobile/tablet estreito: encolhe o e-mail pra não estourar o card */
+@media (max-width: 600px) {
+  .contact-email { font-size: 15px; padding: 16px 22px; gap: 8px; }
+}
 @media (max-width: 480px) {
-  .contact-email {
-    font-size: 14px;
-    padding: 16px 20px;
-    gap: 8px;
-    max-width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-wrap: anywhere;
-  }
+  .contact-email { font-size: 14px; padding: 16px 20px; }
 }
 @media (max-width: 360px) {
   .contact-email { font-size: 12px; padding: 14px 16px; }

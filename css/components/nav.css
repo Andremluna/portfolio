@@ -88,7 +88,8 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 .lang-btn.active { background: var(--lime); color: var(--bg); }
 .lang-btn:not(.active):hover { color: var(--text); }
 
-@media (max-width: 720px) {
+/* Esconde os links de seção em tablet/mobile (não cabem com o CTA); >1024 mostra o menu completo */
+@media (max-width: 1024px) {
   .nav-links { display: none; }
 }
 
