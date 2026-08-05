@@ -301,7 +301,8 @@ section.body { padding: 80px 0; }
 }
 .stack-item:hover { border-color: var(--lime); }
 .stack-item .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
-.stack-item .name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: var(--text); }
+.stack-item { min-width: 0; }
+.stack-item .name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: var(--text); overflow-wrap: break-word; word-break: break-word; }
 
 /* CTA next */
 .next-cta {
@@ -528,7 +529,7 @@ footer .lime { color: var(--lime); }
       <div class="stack-item"><div class="label" data-i18n="stk.l1">Markup</div><div class="name">HTML5</div></div>
       <div class="stack-item"><div class="label" data-i18n="stk.l2">Estilo</div><div class="name">CSS3 · Grid · Flexbox</div></div>
       <div class="stack-item"><div class="label" data-i18n="stk.l3">Lógica</div><div class="name">Vanilla JS</div></div>
-      <div class="stack-item"><div class="label" data-i18n="stk.l4">Reveal</div><div class="name">IntersectionObserver</div></div>
+      <div class="stack-item"><div class="label" data-i18n="stk.l4">Reveal</div><div class="name">Intersection<wbr>Observer</div></div>
       <div class="stack-item"><div class="label" data-i18n="stk.l5">Deploy</div><div class="name">GitHub Pages</div></div>
       <div class="stack-item"><div class="label" data-i18n="stk.l6">Tipografia</div><div class="name">Web Fonts</div></div>
     </div>
